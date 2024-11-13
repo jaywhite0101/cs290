@@ -118,11 +118,7 @@ function filterPosts() {
     if (cityFilter && city !== cityFilter) showPost = false;
     if (conditionFilter && condition !== conditionFilter) showPost = false;
 
-    if (showPost) {
-      postContainer.appendChild(post); 
-    } else {
-      post.remove(); 
-    }
+    post.style.display = showPost ? '' : 'none'; // hide instead of removing
   });
 }
 
