@@ -30,7 +30,7 @@ closeButton.addEventListener('click', hideModal);
 cancelButton.addEventListener('click', hideModal);
 
 const acceptButton = document.querySelector('.modal-accept-button');
-const postContainer = document.querySelector('.posts-container'); 
+// const postContainer = document.querySelector('.posts-container'); 
 
 function clearModalInputs() {
   document.querySelector('#item-description-input').value = '';
