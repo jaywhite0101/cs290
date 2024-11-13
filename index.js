@@ -6,13 +6,13 @@
  * Email: whitejo8@oregonstate.edu
  */
 
-const sellButton = document.querySelector('#sell-something-button'); 
-const modal = document.querySelector('.modal');
-const backdrop = document.querySelector('.modal-backdrop');
-const closeButton = document.querySelector('.modal-close-button'); 
-const cancelButton = document.querySelector('.modal-cancel-button'); 
-const updateFilterButton = document.querySelector('#filter-update-button'); 
-const postContainer = document.querySelector('#posts'); 
+const sellButton = document.getElementById('sell-something-button'); 
+const modal = document.getElementById('sell-something-modal');
+const backdrop = document.getElementById('modal-backdrop');
+const closeButton = document.getElementById('modal-close'); 
+const cancelButton = document.getElementById('modal-cancel'); 
+const updateFilterButton = document.getElementById('filter-update-button'); 
+const postContainer = document.getElementById('posts'); 
 
 function showModal() {
   modal.classList.remove('hidden');
@@ -29,23 +29,22 @@ sellButton.addEventListener('click', showModal);
 closeButton.addEventListener('click', hideModal);
 cancelButton.addEventListener('click', hideModal);
 
-const acceptButton = document.querySelector('.modal-accept-button');
-// const postContainer = document.querySelector('.posts-container'); 
+const acceptButton = document.getElementById('modal-accept');
 
 function clearModalInputs() {
-  document.querySelector('#item-description-input').value = '';
-  document.querySelector('#item-price-input').value = '';
-  document.querySelector('#item-city-input').value = '';
-  document.querySelector('#item-condition-input').value = '';
-  document.querySelector('#item-photo-url-input').value = '';
+  document.getElementById('post-text-input').value = '';
+  document.getElementById('post-price-input').value = '';
+  document.getElementById('post-city-input').value = '';
+  document.querySelector('#post-condition-fieldset input:checked').value = '';
+  document.getElementById('post-photo-input').value = '';
 }
 
 function createPost() {
-  const description = document.querySelector('#item-description-input').value.trim();
-  const price = document.querySelector('#item-price-input').value.trim();
-  const city = document.querySelector('#item-city-input').value.trim();
-  const condition = document.querySelector('#item-condition-input').value.trim();
-  const photoURL = document.querySelector('#item-photo-url-input').value.trim();
+  const description = document.getElementById('post-text-input').value.trim();
+  const price = document.getElementById('post-price-input').value.trim();
+  const city = document.getElementById('post-city-input').value.trim();
+  const condition = document.querySelector('#post-condition-fieldset input:checked').value;
+  const photoURL = document.getElementById('post-photo-input').value.trim();
 
   if (!description || !price || !city || !condition || !photoURL) {
     alert("Please fill in all fields.");
@@ -96,11 +95,11 @@ function createPost() {
 acceptButton.addEventListener('click', createPost);
 
 function filterPosts() {
-  const textFilter = document.querySelector('#filter-text').value.trim().toLowerCase();
-  const minPrice = parseFloat(document.querySelector('#filter-min-price').value);
-  const maxPrice = parseFloat(document.querySelector('#filter-max-price').value);
-  const cityFilter = document.querySelector('#filter-city').value.trim().toLowerCase();
-  const conditionFilter = document.querySelector('#filter-condition').value.trim().toLowerCase();
+  const textFilter = document.getElementById('filter-text').value.trim().toLowerCase();
+  const minPrice = parseFloat(document.getElementById('filter-min-price').value);
+  const maxPrice = parseFloat(document.getElementById('filter-max-price').value);
+  const cityFilter = document.getElementById('filter-city').value.trim().toLowerCase();
+  const conditionFilter = document.querySelector('#post-condition-fieldset input:checked').value.trim().toLowerCase();
 
   const posts = document.querySelectorAll('.post');
 
@@ -118,8 +117,19 @@ function filterPosts() {
     if (cityFilter && city !== cityFilter) showPost = false;
     if (conditionFilter && condition !== conditionFilter) showPost = false;
 
-    post.style.display = showPost ? '' : 'none'; // hide instead of removing
+    post.style.display = showPost ? '' : 'none'; // change: need to remove posts
   });
 }
 
 updateFilterButton.addEventListener('click', filterPosts);
+
+
+//create object with all the post data at start
+//so when posts are removed, posts can be added back in to be filtered
+//syntax for removing the posts is (post object).remove 
+//filter function in javascript -- need to remove posts into hide them
+//to filter again, need all of posts back, so remove all posts and then call create function to get blank slate again
+//to remove ones that are currently on screen, go for length of those on screen
+//check each post to see if it matches all filters, if it doesn't then remove it
+//remove all posts at end of filter and then add them all back for next filter
+//posts object is created first, added posts need to be added to overall object
